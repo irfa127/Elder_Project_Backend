@@ -192,36 +192,53 @@ def update_appointment(
     if not appointment:
         raise HTTPException(status_code=404, detail="Appointment not found")
 
-    for key, value in appointment_update.dict(exclude_unset=True).items():
-        setattr(appointment, key, value)
-
-    current_status = (
-        str(appointment.status.value)
+    old_status = (
+        appointment.status.value
         if hasattr(appointment.status, "value")
         else str(appointment.status)
     )
-    if current_status in ["ON_THE_WAY", "ARRIVED"]:
+    new_status = appointment_update.status.value if hasattr(appointment_update.status, "value") else str(appointment_update.status)
 
-        active_conflict = (
-            db.query(Appointment)
-            .filter(
-                Appointment.nurse_id == appointment.nurse_id,
-                func.date(Appointment.appointment_date)
-                == func.date(appointment.appointment_date),
-                Appointment.appointment_time == appointment.appointment_time,
-                Appointment.status.in_(
-                    [AppointmentStatus.ON_THE_WAY, AppointmentStatus.ARRIVED]
-                ),
-                Appointment.id != appointment_id,
-            )
-            .first()
-        )
+    # Status Order Mapping
+    status_order = {
+        "PENDING": 1,
+        "ON_THE_WAY": 2,
+        "ARRIVED": 3,
+        "COMPLETED": 4,
+    }
 
-        if active_conflict:
+    if new_status in status_order and old_status in status_order:
+        old_val = status_order[old_status]
+        new_val = status_order[new_status]
+
+        # Rule: No skipping, No backwards
+        if new_val != old_val + 1:
             raise HTTPException(
-                status_code=400,
-                detail="This nurse is already attending another patient at this time.",
+                status_code=400, 
+                detail=f"Invalid transition from {old_status} to {new_status}. Steps must be followed in order."
             )
+
+        # Rule: Cannot complete before appointment time
+        if new_status == "COMPLETED":
+            from datetime import datetime, time
+            
+            appt_date = appointment.appointment_date # This is already a DateTime object
+            try:
+                # Assuming appointment_time is "HH:mm"
+                hour, minute = map(int, appointment.appointment_time.split(':'))
+                appt_full_time = datetime.combine(appt_date.date(), time(hour, minute))
+                
+                if datetime.now() < appt_full_time:
+                    raise HTTPException(
+                        status_code=400,
+                        detail="Visit cannot be completed before the scheduled appointment time."
+                    )
+            except ValueError:
+                # fallback if time format is weird
+                pass
+
+    for key, value in appointment_update.dict(exclude_unset=True).items():
+        setattr(appointment, key, value)
 
     db.commit()
     db.refresh(appointment)

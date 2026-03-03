@@ -25,6 +25,7 @@ class UserUpdate(BaseModel):   #edit-profile.html
     phone: Optional[str] = None
     address: Optional[str] = None
     profile_picture: Optional[str] = None
+    password: Optional[str] = None
     
 class UserLogin(BaseModel): #login.html Different / minimal fields if needed → BaseModel direct
     email: EmailStr

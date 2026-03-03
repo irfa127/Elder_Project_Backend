@@ -30,6 +30,9 @@ class AppointmentResponse(AppointmentBase): #patient-appointments.html nurse-app
     id: int
     status: str
     created_at: Optional[datetime] = None
+    has_review: Optional[bool] = False
+    nurse_name: Optional[str] = None
+    nurse_image: Optional[str] = None
     
     class Config:
         from_attributes = True
