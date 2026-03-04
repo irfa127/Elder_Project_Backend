@@ -3,7 +3,9 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database.database import Base, engine
+from app import models
 
+print("Registered tables:", Base.metadata.tables.keys())
 
 Base.metadata.create_all(bind=engine)
 
