@@ -208,15 +208,19 @@ def update_appointment(
         "COMPLETED": 5,
     }
 
-    if new_status in status_order and old_status in status_order:
-        old_val = status_order[old_status]
-        new_val = status_order[new_status]
+    # Normalize for comparison
+    u_old = old_status.strip().upper()
+    u_new = new_status.strip().upper()
 
-        # Rule: No skipping, No backwards
-        if new_val != old_val + 1:
+    if u_new in status_order and u_old in status_order:
+        old_val = status_order[u_old]
+        new_val = status_order[u_new]
+
+        # Rule: Must move forward, but allowing skipping steps if needed
+        if new_val <= old_val:
             raise HTTPException(
                 status_code=400, 
-                detail=f"Invalid transition from {old_status} to {new_status}. Steps must be followed in order."
+                detail=f"Invalid transition from {u_old} to {u_new}. You can only move forward in the process."
             )
 
 
