@@ -20,10 +20,6 @@ def create_review(review: ReviewCreate, db: Session = Depends(get_db), current_u
     if not appointment:
         raise HTTPException(status_code=404, detail="Appointment not found")
 
-    if appointment.status != AppointmentStatus.COMPLETED:
-        raise HTTPException(
-            status_code=400, detail="You can only rate a completed appointment"
-        )
 # Duplicate review prevent
     existing_review = (
         db.query(Review).filter(Review.appointment_id == review.appointment_id).first()

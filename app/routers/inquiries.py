@@ -9,6 +9,7 @@ from app.routers.auth import get_current_user
 
 router = APIRouter(prefix="/inquiries", tags=["Inquiries"])
 # CREATE Inquiry
+
 @router.post("/", response_model=InquiryResponse)
 def create_inquiry(inquiry: InquiryCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     new_inquiry = Inquiry(**inquiry.dict())
@@ -17,10 +18,12 @@ def create_inquiry(inquiry: InquiryCreate, db: Session = Depends(get_db), curren
     db.refresh(new_inquiry)
     return new_inquiry
 # GET ALL Inquiries
+
 @router.get("/", response_model=List[InquiryResponse])
 def get_inquiries(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     inquiries = db.query(Inquiry).all()
     return inquiries
+
 # GET ALL Inquiries (Community View - Detailed)
 @router.get("/community/{community_id}", response_model=List[InquiryResponseManager])
 def get_community_inquiries(community_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
@@ -38,7 +41,7 @@ def get_inquiry(inquiry_id: int, db: Session = Depends(get_db), current_user: Us
     if not inquiry:
         raise HTTPException(status_code=404, detail="Inquiry not found")
     return inquiry
-# UPDATE Inquiry
+# UPDATE Inquiry oahdashbord.js update 
 @router.put("/{inquiry_id}", response_model=InquiryResponse)
 def update_inquiry(inquiry_id: int, inquiry_update: InquiryUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     inquiry = db.query(Inquiry).filter(Inquiry.id == inquiry_id).first()

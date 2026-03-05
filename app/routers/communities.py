@@ -24,13 +24,13 @@ def get_communities(db: Session = Depends(get_db), current_user: User = Depends(
     communities = db.query(Community).all()
     return communities
 
-# GET Communities by Manager
+# GET Communities by Manager Fetch in oah portal.js and oah dashboard.js
 @router.get("/manager/{manager_id}", response_model=List[CommunityResponse])
 def get_manager_communities(manager_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     communities = db.query(Community).filter(Community.manager_id == manager_id).all()
     return communities
 
-# GET Single Community
+# GET Single Community fetch  Inquiries oah dashboard.js
 @router.get("/{community_id}", response_model=CommunityResponse)
 def get_community(community_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     community = db.query(Community).filter(Community.id == community_id).first()

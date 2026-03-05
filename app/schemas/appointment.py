@@ -10,6 +10,7 @@ class AppointmentStatus(str, Enum):
     ARRIVED = "ARRIVED"
     COMPLETED = "COMPLETED"
     CANCELLED = "CANCELLED"
+    REJECTED = "REJECTED"
 
 class AppointmentBase(BaseModel): #book-appointment.html
     patient_id: int

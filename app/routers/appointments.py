@@ -180,7 +180,7 @@ def get_appointment(appointment_id: int, db: Session = Depends(get_db), current_
         raise HTTPException(status_code=404, detail="Appointment not found")
     return appointment
 
-# Update Status nurse and 
+# Update Status nurse and fetch in nurse.js
 @router.put("/{appointment_id}", response_model=AppointmentResponse)
 def update_appointment(
     appointment_id: int,
@@ -202,9 +202,10 @@ def update_appointment(
     # Status Order Mapping
     status_order = {
         "PENDING": 1,
-        "ON_THE_WAY": 2,
-        "ARRIVED": 3,
-        "COMPLETED": 4,
+        "ACCEPTED": 2,
+        "ON_THE_WAY": 3,
+        "ARRIVED": 4,
+        "COMPLETED": 5,
     }
 
     if new_status in status_order and old_status in status_order:
@@ -218,24 +219,7 @@ def update_appointment(
                 detail=f"Invalid transition from {old_status} to {new_status}. Steps must be followed in order."
             )
 
-        # Rule: Cannot complete before appointment time
-        if new_status == "COMPLETED":
-            from datetime import datetime, time
-            
-            appt_date = appointment.appointment_date # This is already a DateTime object
-            try:
-                # Assuming appointment_time is "HH:mm"
-                hour, minute = map(int, appointment.appointment_time.split(':'))
-                appt_full_time = datetime.combine(appt_date.date(), time(hour, minute))
-                
-                if datetime.now() < appt_full_time:
-                    raise HTTPException(
-                        status_code=400,
-                        detail="Visit cannot be completed before the scheduled appointment time."
-                    )
-            except ValueError:
-                # fallback if time format is weird
-                pass
+
 
     for key, value in appointment_update.dict(exclude_unset=True).items():
         setattr(appointment, key, value)

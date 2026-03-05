@@ -11,6 +11,7 @@ class AppointmentStatus(enum.Enum):
     ARRIVED = "ARRIVED"
     COMPLETED = "COMPLETED"
     CANCELLED = "CANCELLED"
+    REJECTED = "REJECTED"
 
 class Appointment(Base):
     __tablename__ = "appointments"
