@@ -212,6 +212,25 @@ def update_appointment(
     u_old = old_status.strip().upper()
     u_new = new_status.strip().upper()
 
+    # Rule: Only ONE active visit (ON_THE_WAY or ARRIVED) at a time
+    if u_new in ["ON_THE_WAY", "ARRIVED"]:
+        db_nurse_id = appointment.nurse_id
+        # Check if nurse has another active appointment (excluding the current one)
+        existing_active = (
+            db.query(Appointment)
+            .filter(
+                Appointment.nurse_id == db_nurse_id,
+                Appointment.id != appointment.id,
+                Appointment.status.in_([AppointmentStatus.ON_THE_WAY, AppointmentStatus.ARRIVED])
+            )
+            .first()
+        )
+        if existing_active:
+            raise HTTPException(
+                status_code=400,
+                detail="You are already attending another patient. Please complete the current visit first."
+            )
+
     if u_new in status_order and u_old in status_order:
         old_val = status_order[u_old]
         new_val = status_order[u_new]

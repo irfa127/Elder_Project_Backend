@@ -13,7 +13,7 @@ def get_nurses(db: Session = Depends(get_db), current_user: User = Depends(get_c
     """Fetch all users with the role 'nurse'"""
     nurses = db.query(User).filter(User.role == UserRole.NURSE).all()
     return nurses
-
+ 
 @router.get("/patients", response_model=List[UserResponse])
 def get_patients(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """Fetch all users with the role 'patient'"""

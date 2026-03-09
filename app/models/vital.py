@@ -7,6 +7,7 @@ from .user import User
 class Vitals(Base):
     __tablename__ = "vitals"
 
+
     id = Column(Integer, primary_key=True, index=True)
     patient_id = Column(Integer, ForeignKey("app_users.id"), nullable=False)  
     nurse_id = Column(Integer, ForeignKey("app_users.id"), nullable=True)     

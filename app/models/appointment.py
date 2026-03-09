@@ -13,6 +13,7 @@ class AppointmentStatus(enum.Enum):
     CANCELLED = "CANCELLED"
     REJECTED = "REJECTED"
 
+
 class Appointment(Base):
     __tablename__ = "appointments"
     

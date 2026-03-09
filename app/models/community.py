@@ -5,6 +5,7 @@ from app.database.database import Base
 class Community(Base):
     __tablename__ = "communities"
     
+    
     id = Column(Integer, primary_key=True, index=True)
     manager_id = Column(Integer, ForeignKey("app_users.id"), nullable=False)
     name = Column(String, nullable=False)

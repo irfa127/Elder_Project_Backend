@@ -3,7 +3,12 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database.database import Base, engine
-from app import models
+from app.models.user import User
+from app.models.appointment import Appointment
+from app.models.vital import Vitals
+from app.models.community import Community
+from app.models.inquiry import Inquiry
+from app.models.review import Review
 
 print("Registered tables:", Base.metadata.tables.keys())
 
