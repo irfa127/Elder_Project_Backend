@@ -24,7 +24,7 @@ class Appointment(Base):
     appointment_time = Column(String, nullable=False)
     service_type = Column(String)
     status = Column(
-        SQLEnum(AppointmentStatus, native_enum=False, validate_strings=True),
+        SQLEnum(AppointmentStatus, native_enum=False, validate_strings=True), # later 
         default=AppointmentStatus.PENDING
     )
     notes = Column(String)

@@ -42,7 +42,7 @@ def create_appointment(appointment: AppointmentCreate, db: Session = Depends(get
         db.refresh(new_appointment)
         return new_appointment
     except HTTPException as he:
-        raise he
+        raise he 
     except Exception as e:
         db.rollback()
 

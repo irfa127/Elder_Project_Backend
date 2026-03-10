@@ -16,7 +16,7 @@ def get_nurses(db: Session = Depends(get_db), current_user: User = Depends(get_c
  
 @router.get("/patients", response_model=List[UserResponse])
 def get_patients(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    """Fetch all users with the role 'patient'"""
+    """Fetch all users with the role 'elder'"""
     patients = db.query(User).filter(User.role == UserRole.PATIENT).all()
     return patients
 
@@ -36,7 +36,7 @@ def update_user(user_id: int, user_update: UserUpdate, db: Session = Depends(get
     
     update_data = user_update.dict(exclude_unset=True)
     
-    # Validation: Do not allow clearing fields that already have data
+   
     for field, new_value in update_data.items():
         if field == "password":
             if new_value and new_value.strip():
@@ -44,8 +44,7 @@ def update_user(user_id: int, user_update: UserUpdate, db: Session = Depends(get
             continue
 
         existing_value = getattr(user, field)
-        
-        # If database already has a value, do not allow clearing it
+      
         if existing_value is not None and existing_value != "" and (new_value is None or str(new_value).strip() == ""):
              raise HTTPException(
                 status_code=400, 

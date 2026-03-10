@@ -38,7 +38,7 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
 
     db.add(new_user)
     db.commit()
-    db.refresh(new_user)
+    db.refresh(new_user) # later 
 
     access_token = create_access_token(subject=new_user.id)
 
@@ -62,14 +62,12 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     return {"access_token": access_token, "token_type": "bearer", "user": db_user}
 
 # Server token verify pannum
-def get_current_user(
-    token: HTTPAuthorizationCredentials = Depends(security), db: Session = Depends(get_db)
-):
+
+
+def get_current_user(token: HTTPAuthorizationCredentials = Depends(security), db: Session = Depends(get_db)):
     token = token.credentials
     try:
-        payload = jwt.decode(
-            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
-        )
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         user_id: int = payload.get("sub")
         if user_id is None:
             raise HTTPException(status_code=401, detail="Invalid token")
