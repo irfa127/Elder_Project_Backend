@@ -13,6 +13,7 @@ class CommunityBase(BaseModel):
     is_featured: bool = False
     is_premium: bool = False
     total_beds: Optional[int] = 0
+    registration_id: Optional[str] = None
 
 class CommunityCreate(CommunityBase):  #add-community.html
     manager_id: int
@@ -27,6 +28,7 @@ class CommunityUpdate(BaseModel): #edit-community.html
     specialty_label: Optional[str] = None
     facilities: Optional[str] = None
     total_beds: Optional[int] = None
+    registration_id: Optional[str] = None
 
 class CommunityResponse(CommunityBase): #community-list.html community-details.html
     id: int

@@ -20,6 +20,7 @@ class Community(Base):
     is_premium = Column(Boolean, default=False)
     facilities = Column(String)
     total_beds = Column(Integer, default=0)
+    registration_id = Column(String)
     
     manager = relationship("User", foreign_keys=[manager_id])
 
