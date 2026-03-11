@@ -34,6 +34,13 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
         role=DBUserRole(user.role.value),
         phone=user.phone,
         address=user.address,
+        license_number=user.license_number,
+        qualification=user.qualification,
+        experience_years=user.experience_years,
+        specialization=user.specialization,
+        government_id=user.government_id,
+        total_beds=user.total_beds,
+        registration_certificate=user.registration_certificate,
     )
 
     db.add(new_user)

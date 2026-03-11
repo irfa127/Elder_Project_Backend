@@ -19,6 +19,7 @@ class Community(Base):
     is_featured = Column(Boolean, default=False)
     is_premium = Column(Boolean, default=False)
     facilities = Column(String)
+    total_beds = Column(Integer, default=0)
     
     manager = relationship("User", foreign_keys=[manager_id])
 
