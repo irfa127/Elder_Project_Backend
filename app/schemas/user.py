@@ -16,6 +16,15 @@ class UserBase(BaseModel):
     phone: Optional[str] = None
     address: Optional[str] = None
     
+    # Patient specific fields
+    dob: Optional[str] = None
+    gender: Optional[str] = None
+    blood_group: Optional[str] = None
+    emergency_contact_name: Optional[str] = None
+    emergency_contact_phone: Optional[str] = None
+    medical_condition: Optional[str] = None
+    mobility_status: Optional[str] = None
+    
     # Nurse specific fields
     license_number: Optional[str] = None
     qualification: Optional[str] = None
@@ -37,6 +46,15 @@ class UserUpdate(BaseModel):   #edit-profile.html
     address: Optional[str] = None
     profile_picture: Optional[str] = None
     password: Optional[str] = None
+    
+    # Patient specific fields
+    dob: Optional[str] = None
+    gender: Optional[str] = None
+    blood_group: Optional[str] = None
+    emergency_contact_name: Optional[str] = None
+    emergency_contact_phone: Optional[str] = None
+    medical_condition: Optional[str] = None
+    mobility_status: Optional[str] = None
     
     # Nurse specific fields
     license_number: Optional[str] = None

@@ -22,6 +22,15 @@ class User(Base):
     rating = Column(Float, default=4.8)
     profile_picture = Column(String)
     
+    # Patient specific fields
+    dob = Column(String)
+    gender = Column(String)
+    blood_group = Column(String)
+    emergency_contact_name = Column(String)
+    emergency_contact_phone = Column(String)
+    medical_condition = Column(String) # Text
+    mobility_status = Column(String)
+    
     # Nurse specific fields
     license_number = Column(String)
     qualification = Column(String)
