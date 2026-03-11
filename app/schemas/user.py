@@ -16,17 +16,6 @@ class UserBase(BaseModel):
     phone: Optional[str] = None
     address: Optional[str] = None
     
-    # Nurse specific fields
-    license_number: Optional[str] = None
-    qualification: Optional[str] = None
-    experience_years: Optional[int] = None
-    specialization: Optional[str] = None
-    government_id: Optional[str] = None
-    
-    # OAH specific fields
-    total_beds: Optional[int] = None
-    registration_certificate: Optional[str] = None
-
 class UserCreate(UserBase):   #signup.html #Common fields if needed → UserBase inherit
     password: str
 
@@ -37,17 +26,6 @@ class UserUpdate(BaseModel):   #edit-profile.html
     address: Optional[str] = None
     profile_picture: Optional[str] = None
     password: Optional[str] = None
-    
-    # Nurse specific fields
-    license_number: Optional[str] = None
-    qualification: Optional[str] = None
-    experience_years: Optional[int] = None
-    specialization: Optional[str] = None
-    government_id: Optional[str] = None
-    
-    # OAH specific fields
-    total_beds: Optional[int] = None
-    registration_certificate: Optional[str] = None
     
 class UserLogin(BaseModel): #login.html Different / minimal fields if needed → BaseModel direct
     email: EmailStr

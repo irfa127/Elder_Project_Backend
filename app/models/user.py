@@ -21,17 +21,6 @@ class User(Base):
     address = Column(String)
     rating = Column(Float, default=4.8)
     profile_picture = Column(String)
-    
-    # Nurse specific fields
-    license_number = Column(String)
-    qualification = Column(String)
-    experience_years = Column(Integer)
-    specialization = Column(String)
-    government_id = Column(String) # URL to Cloudinary
-    
-    # OAH specific fields
-    total_beds = Column(Integer)
-    registration_certificate = Column(String) # URL to Cloudinary
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
