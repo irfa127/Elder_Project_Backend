@@ -34,7 +34,17 @@ class AppointmentResponse(AppointmentBase): #patient-appointments.html nurse-app
     has_review: Optional[bool] = False
     nurse_name: Optional[str] = None
     nurse_image: Optional[str] = None
-    
+    patient_name: Optional[str] = None
+    patient_image: Optional[str] = None
+    # Additional Patient Details
+    patient_dob: Optional[str] = None
+    patient_gender: Optional[str] = None
+    patient_blood_group: Optional[str] = None
+    patient_emergency_contact_name: Optional[str] = None
+    patient_emergency_contact_phone: Optional[str] = None
+    patient_medical_condition: Optional[str] = None
+    patient_mobility_status: Optional[str] = None
+
     class Config:
         from_attributes = True
 

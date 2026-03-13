@@ -36,6 +36,13 @@ class ApplicantPublic(BaseModel):
 class ApplicantDetailed(ApplicantPublic):
     email: EmailStr
     phone: Optional[str] = None
+    dob: Optional[str] = None
+    gender: Optional[str] = None
+    blood_group: Optional[str] = None
+    emergency_contact_name: Optional[str] = None
+    emergency_contact_phone: Optional[str] = None
+    medical_condition: Optional[str] = None
+    mobility_status: Optional[str] = None
 
     class Config:
         from_attributes = True

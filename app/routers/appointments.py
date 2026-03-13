@@ -149,6 +149,15 @@ def get_nurse_appointments(nurse_id: int, db: Session = Depends(get_db), current
                     "patient_id": a.patient_id,
                     "patient_name": patient_name,
                     "patient_image": patient_image,
+                    # Additional Details
+                    "patient_dob": patient.dob if patient else None,
+                    "patient_gender": patient.gender if patient else None,
+                    "patient_blood_group": patient.blood_group if patient else None,
+                    "patient_emergency_contact_name": patient.emergency_contact_name if patient else None,
+                    "patient_emergency_contact_phone": patient.emergency_contact_phone if patient else None,
+                    "patient_medical_condition": patient.medical_condition if patient else None,
+                    "patient_mobility_status": patient.mobility_status if patient else None,
+                    
                     "nurse_id": a.nurse_id,
                     "appointment_date": a.appointment_date,
                     "appointment_time": a.appointment_time,
